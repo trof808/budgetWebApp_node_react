@@ -1,3 +1,13 @@
 .auth0-lock-badge-bottom, .auth0-lock-header-welcome {
   display: none;
 }
+img.media-object {
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    display: inline-table;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {
+  background-color: transparent;
+}

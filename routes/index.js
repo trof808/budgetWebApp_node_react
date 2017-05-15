@@ -20,11 +20,12 @@ route.get('/', (req, res, next) => {
 	}
 });
 
-route.get('/user/:username/start', (req, res, next) => {
-	res.render('start', {user: user});
+route.get('/user/:username/start', ensureLoggedIn, (req, res, next) => {
+
+	res.render('start', {user: req.user});
 });
 
-route.get('/user/:username', (req, res, next) => {
+route.get('/user/:username', ensureLoggedIn, (req, res, next) => {
 	res.send('Ваш провиль, ' + req.user.nickname);
 });
 
@@ -63,6 +64,7 @@ route.get('/callback',
 				next();
 			} else {
 				client.set('user_id', req.user.identities[0].user_id);
+				clinet.set('first', true);
 				console.log('Пользователь добавлен: ' + client.get('user_id'));
 				res.redirect('/user/'+req.user.nickname+'/start');
 			}
