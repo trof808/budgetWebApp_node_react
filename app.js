@@ -39,8 +39,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
 	res.status(err.status || 500);
-	res.send(err);
+	res.render('error', {message: err.message, error: err})
 });
 
-app.listen(3000);
-
+app.listen(8094);
