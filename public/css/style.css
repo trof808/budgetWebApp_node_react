@@ -13,3 +13,22 @@ img.media-object {
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {
   background-color: transparent;
 }
+
+.start-page {
+  margin-top: 50px;
+}
+button.pg-start-btns {
+    margin: 0 8px;
+}
+.over-start, .add-btns {
+    text-align: center;
+    margin-top: 20px;
+}
+.added {
+  margin-top: 18px;
+  border-bottom: 1px solid #eee;
+}
+.cards-added ul, .vklads-added ul,.counts-added ul {
+  list-style-type: none;
+  padding: 0;
+}

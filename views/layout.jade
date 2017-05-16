@@ -13,6 +13,7 @@ html(lang="en")
 		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 		script(src="https://cdn.auth0.com/js/lock/10.3/lock.min.js")
+		script(src="/js/common.js")
 	body
 		block header
 			nav.navbar.navbar-default
@@ -24,39 +25,21 @@ html(lang="en")
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						a.navbar-brand(href='#') Brand
 					// Collect the nav links, forms, and other content for toggling
 					#bs-example-navbar-collapse-1.collapse.navbar-collapse
-						ul.nav.navbar-nav
-							li.active
-								a(href='#')
-									| Link 
-									span.sr-only (current)
-							li
-								a(href='#') Link
-							li.dropdown
-								a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-									| Dropdown 
-									span.caret
-								ul.dropdown-menu
-									li
-										a(href='#') Action
-									li
-										a(href='#') Another action
-									li
-										a(href='#') Something else here
-									li.divider(role='separator')
-									li
-										a(href='#') Separated link
-									li.divider(role='separator')
-									li
-										a(href='#') One more separated link
 						if(user)
 							ul.nav.navbar-nav.navbar-right
 								li.dropdown
-									a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-										| #{user.nickname} <img class="media-object" src="#{user.picture}">
-										span.caret
+									if(user.firstname)
+										a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+											| #{user.firstname}
+											<img class="media-object" src="#{user.picture}">
+											span.caret
+									else
+										a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+											| #{user.username}
+											<img class="media-object" src="#{user.picture}">
+											span.caret
 									ul.dropdown-menu
 										li
 											a(href='/user/#{user.nickname}') Главная страница
@@ -73,5 +56,5 @@ html(lang="en")
 									a(href='/login') Войти
 					// /.navbar-collapse
 				// /.container-fluid
-
-		block content
+		.container-fluid
+			block content

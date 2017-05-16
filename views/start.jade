@@ -1,1 +1,32 @@
 extends layout
+
+block content
+  .col-md-8.col-md-offset-2
+    h2.pb-h2.text-center Вы зарегистрировались впервые
+    h4.pb-h4.text-center Заполните следующие поля, для дальнейшей работы
+    .start-page
+      .row
+        .col-md-6.col-md-offset-3
+          form#start-form
+            .form-group
+              label(for="pg-nal") <span class="glyphicon glyphicon-ruble" aria-hidden="true"></span> Наличные деньги
+              input(type="text", id="pg-nal" class="nal-mony form-control", placeholder="Наличные деньги")
+              span(id="helpBlock", class="help-block") Введите сумму, которая у вас есть наличными
+            .cards-added.added
+              h4 Добавленные карты
+              ul
+                li <a class="remove-start-item"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> Сбербанк <span>20 000 рублей</span>
+            .vklads-added.added
+              h4 Добавленные вклады
+              ul
+                li <a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> Сбербанк <span>20 000 рублей</span>
+            .counts-added.added
+              h4 Добавленные счета
+              ul
+                li <a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> Сбербанк <span>20 000 рублей</span>
+            .add-btns
+              button(type="button", class="pg-cart-btns pg-start-btns btn btn-primary btn-sm") <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить карту
+              button(type="button", class="pg-vklad-btns pg-start-btns btn btn-primary btn-sm") <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить вклад
+              button(type="button", class="pg-count-btns pg-start-btns btn btn-primary btn-sm") <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить счет
+            .over-start
+              button(type="submit" class="pg-start-submit btn btn-default") Начать работу с сервисом

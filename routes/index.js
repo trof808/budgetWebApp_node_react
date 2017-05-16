@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const passport = require('passport');
 const route = express.Router();
@@ -23,22 +24,11 @@ route.get('/', (req, res, next) => {
 	}
 });
 
-route.get('/user/:username/start', ensureLoggedIn, (req, res, next) => {
-
-	res.render('start', {user: req.user});
+route.get('/user/:username/start', (req, res, next) => {
+	res.render('start');
 });
 
-route.get('/user/:username', ensureLoggedIn, (req, res, next) => {
-	if(req.user.nickname === req.params.username) {
-		// console.log(req.user);
-		// console.log(req.user.identities[0].isSocial);
-		// console.log(req.user.given_name);
-		// let user = user.findUserById(req, res, next);
-		res.render('user', {user: req.user});
-	} else {
-		res.send('Это не та страница')
-	}
-});
+route.get('/user/:username', ensureLoggedIn, user.findUserById);
 
 route.get('/login', (req, res, next) => {
 	res.render('login', {env: env});
@@ -59,11 +49,6 @@ route.get('/polls', ensureLoggedIn, (req, res, next) => {
 			render('error');
 		}
 	})
-});
-
-route.get('/user', (req, res, next) => {
-	console.log(req.user);
-	res.render('user', {user: req.user});
 });
 
 route.get('/callback',

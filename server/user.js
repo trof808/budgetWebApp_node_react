@@ -1,3 +1,4 @@
+'use strict';
 const db = require('./db');
 const redis = require("redis");
 const client = redis.createClient();
@@ -8,8 +9,32 @@ const findUserById = (req, res, next) => {
   let sql = `
     SELECT * FROM users WHERE user_id = $1
   `;
-  db.query(sql, [userId])
-    .then(result => {return result})
+  db.query(sql, [userId], true)
+    .then(result => {
+      if(req.user.nickname === req.params.username) {
+        console.log(result);
+    		res.render('user', {user: result});
+    	} else {
+    		res.send('Это не та страница')
+    	}
+    })
+    .catch(next);
+};
+
+const findUserByIdAndStart = (req, res, next) => {
+  let userId = req.user.identities[0].user_id;
+  let sql = `
+    SELECT * FROM users WHERE user_id = $1
+  `;
+  db.query(sql, [userId], true)
+    .then(result => {
+      if(req.user.nickname === req.params.username) {
+        console.log(result);
+    		res.render('start', {user: result});
+    	} else {
+    		res.send('Это не та страница')
+    	}
+    })
     .catch(next);
 };
 
@@ -25,6 +50,7 @@ const checkUserInDb = (req, res, next) => {
       } else {
         req.session.start = true;
         console.log(result);
+        console.log(req.user.nickname);
         next();
       }
     })
@@ -35,12 +61,12 @@ const checkUserInDb = (req, res, next) => {
 const createNewUser = (req, res, next) => {
   userId = req.user.identities[0].user_id;
   if(req.user.identities[0].isSocial) {
-    db.query('INSERT INTO users (user_id, email, username, firstname, lastname) VALUES ($1, $2, $3, $4, $5)',
-              [userId, req.user._json.email, req.user.nickname, req.user._json.given_name, req.user._json.family_name])
+    db.query('INSERT INTO users (user_id, email, username, firstname, lastname, picture) VALUES ($1, $2, $3, $4, $5, $6)',
+              [userId, req.user._json.email, req.user.nickname, req.user._json.given_name, req.user._json.family_name, req.user.picture])
       .then(result => {userStartPage(req, res, next)})
       .catch(error => {res.render('error', {message: 'Ошибка при создании базы', error: error})})
   } else {
-    db.query('INSERT INTO users (user_id, email, username) VALUES ($1, $2, $3)', [userId, req.user._json.email, req.user.nickname])
+    db.query('INSERT INTO users (user_id, email, username, picture) VALUES ($1, $2, $3, $4)', [userId, req.user._json.email, req.user.nickname, req.user.picture])
       .then(result => {userStartPage(req, res, next)})
       .catch(error => {res.render('error', {message: 'Ошибка при создании базы', error: error})})
   }
@@ -73,3 +99,4 @@ const userStartPage = (req, res, next) => {
 exports.findUserById = findUserById;
 exports.createNewUser = createNewUser;
 exports.checkUserInDb = checkUserInDb;
+exports.findUserByIdAndStart = findUserByIdAndStart;
