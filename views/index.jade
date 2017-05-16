@@ -4,8 +4,12 @@ block content
 	h1 
 		i.fa.fa-lg.fa-pie-chart 
 		span Awesome Polls
-	h2 Welcome to the Awesome Polls Administrator website.
-	p To access the polls, please login.
+	if(loguser.username)
+		h2 Снова здравствуйте, #{loguser.username}.
+		p Для того, чтобы продолжить, войдите в свой аккаунт.
+	else
+		h2 Возможно вы впервые на нашем сайте или нет.
+		p Для того, чтобы продолжить, пожалуйста зарегистрируйтесь или войдите в свой аккаунт.
 	br
 	a(href="/login")
 		button() Войти

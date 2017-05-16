@@ -6,6 +6,8 @@ const request = require('request');
 const redis = require("redis");
 const client = redis.createClient();
 
+const user = require('../server/user');
+
 var env = {
 	AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
   AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
@@ -16,7 +18,8 @@ route.get('/', (req, res, next) => {
 	if(req.user) {
 		res.redirect('/polls');
 	} else {
-		res.render('index', {env: env});
+		console.log(req);
+		res.render('index', {env: env, loguser: req.session});
 	}
 });
 
@@ -26,7 +29,15 @@ route.get('/user/:username/start', ensureLoggedIn, (req, res, next) => {
 });
 
 route.get('/user/:username', ensureLoggedIn, (req, res, next) => {
-	res.send('Ваш провиль, ' + req.user.nickname);
+	if(req.user.nickname === req.params.username) {
+		// console.log(req.user);
+		// console.log(req.user.identities[0].isSocial);
+		// console.log(req.user.given_name);
+		// let user = user.findUserById(req, res, next);
+		res.render('user', {user: req.user});
+	} else {
+		res.send('Это не та страница')
+	}
 });
 
 route.get('/login', (req, res, next) => {
@@ -42,7 +53,7 @@ route.get('/polls', ensureLoggedIn, (req, res, next) => {
 	request('http://elections.huffingtonpost.com/pollster/api/charts.json?topic=2016-president', (error, response, body) => {
 		if(!error && response.statusCode == 200) {
 			let polls = JSON.parse(body);
-			console.log(req.user.identities[0].user_id);
+			console.log(req.user);
 			res.render('polls', {env: env, user: req.user, polls: polls});
 		} else {
 			render('error');
@@ -57,19 +68,7 @@ route.get('/user', (req, res, next) => {
 
 route.get('/callback',
 	passport.authenticate('auth0', { failureRedirect: '/' }),
-	(req, res, next) => {
-		client.exists('user_id', (err, reply) => {
-			if(reply === 1) {
-				console.log('Такой пользователь уже есть: ' + client.get('user_id'));
-				next();
-			} else {
-				client.set('user_id', req.user.identities[0].user_id);
-				clinet.set('first', true);
-				console.log('Пользователь добавлен: ' + client.get('user_id'));
-				res.redirect('/user/'+req.user.nickname+'/start');
-			}
-		});
-	},
+	user.checkUserInDb,
 	(req, res) => {
 	  res.redirect(req.session.returnTo || '/user/'+req.user.nickname);
 });

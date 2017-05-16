@@ -6,6 +6,8 @@ img.media-object {
     border-radius: 50%;
     height: 30px;
     display: inline-table;
+    box-shadow: 1px 1px 5px;
+  border: 1px solid;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {
