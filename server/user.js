@@ -18,11 +18,12 @@ const checkUserInDb = (req, res, next) => {
   userId = req.user.identities[0].user_id;
   db.query('SELECT * FROM users WHERE user_id = $1', [userId])
     .then(result => {
-      console.log(result);
-      if(result) {
+      if(result.length == 0) {
+        req.session.start = false;
         console.log(result);
         createNewUser(req, res, next);
       } else {
+        req.session.start = true;
         console.log(result);
         next();
       }
@@ -47,19 +48,26 @@ const createNewUser = (req, res, next) => {
 }
 
 const userStartPage = (req, res, next) => {
-  client.exists('user_id', (err, reply) => {
-    req.session.username = req.user.nickname;
-    if(reply === 1) {
-      console.log('Такой пользователь уже есть: ' + client.get('user_id'));
-      res.redirect(req.session.returnTo || '/user/'+req.user.nickname);
-    } else {
-      client.set('username', req.user.nickname);
-      client.set('user_id', req.user.identities[0].user_id);
-      clinet.set('first', true);
-      console.log('Пользователь добавлен: ' + client.get('user_id'));
-      res.redirect('/user/'+req.user.nickname+'/start');
-    }
-  });
+  if(req.session.first == true) {
+    console.log('Такой пользователь уже есть: ' + client.get('user_id'));
+    res.redirect(req.session.returnTo || '/user/'+req.user.nickname);
+  } else {
+    console.log('Пользователь добавлен: ' + client.get('user_id'));
+    res.redirect('/user/'+req.user.nickname+'/start');
+  }
+  // client.exists('user_id', (err, reply) => {
+  //   req.session.username = req.user.nickname;
+  //   if(reply === 1) {
+  //     console.log('Такой пользователь уже есть: ' + client.get('user_id'));
+  //     res.redirect(req.session.returnTo || '/user/'+req.user.nickname);
+  //   } else {
+  //     client.set('username', req.user.nickname);
+  //     client.set('user_id', req.user.identities[0].user_id);
+  //     clinet.set('first', true);
+  //     console.log('Пользователь добавлен: ' + client.get('user_id'));
+  //     res.redirect('/user/'+req.user.nickname+'/start');
+  //   }
+  // });
 };
 
 exports.findUserById = findUserById;
