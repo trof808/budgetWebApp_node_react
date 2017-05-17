@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import StartContainer from './startContainer'
+
+import './style/index.css';
+import './style/start.css'
+
 
 ReactDOM.render(
-  <App />,
+  <StartContainer />,
   document.getElementById('root')
 );

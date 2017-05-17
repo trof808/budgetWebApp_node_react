@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.auth0-lock-badge-bottom, .auth0-lock-header-welcome {
+  display: none;
+}
+img.media-object {
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    display: inline-table;
+    box-shadow: 1px 1px 5px;
+  border: 1px solid;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {
+  background-color: transparent;
+}

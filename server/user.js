@@ -40,7 +40,7 @@ const findUserByIdAndStart = (req, res, next) => {
 
 //Проверяет, есть ли пользователь в базе при первом заходе
 const checkUserInDb = (req, res, next) => {
-  userId = req.user.identities[0].user_id;
+  var userId = req.user.identities[0].user_id;
   db.query('SELECT * FROM users WHERE user_id = $1', [userId])
     .then(result => {
       if(result.length == 0) {
