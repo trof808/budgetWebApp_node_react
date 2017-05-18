@@ -1,5 +1,27 @@
+import { createStore, combineReducers } from 'redux';
+import { action_types } from './actions'
+
 const addCount = (list = [], action) => {
-  return [...list, action.count];
+  switch(action.type) {
+    case action_types.ADD_COUNT:
+      return [...list, action.count];
+    default:
+      return list;
+  }
 };
 
-export default addCount;
+const changeModalContent = (obj = {}, action) => {
+  switch(action.type) {
+    case action_types.CHANGE_MODAL:
+      return {...obj, typeCount: action.typeCount, title: action.title};
+    default:
+      return obj;
+  }
+}
+
+const reducers = combineReducers({
+  addCount,
+  changeModalContent
+});
+
+export const store = createStore(reducers);

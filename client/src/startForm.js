@@ -3,6 +3,7 @@ import StartCash from './startCash';
 import StartCounts from './startCounts';
 import StartBtns from './startBtns';
 
+import { store } from './service/startRedux';
 
 class StartForm extends Component {
 
@@ -45,12 +46,14 @@ class StartForm extends Component {
 
   render() {
 
+    let counts = store.getState();
+
     return (
       <form id="start-form">
         <StartCash />
-        <StartCounts title="Добавленные карты" type="card" counts={this.state.countsAdded}/>
-        <StartCounts title="Добавленные вклады" type="deposit" counts={this.state.countsAdded}/>
-        <StartCounts title="Добавленные счета" type="count" counts={this.state.countsAdded}/>
+        <StartCounts title="Добавленные карты" type="card" counts={counts}/>
+        <StartCounts title="Добавленные вклады" type="deposit" counts={counts}/>
+        <StartCounts title="Добавленные счета" type="count" counts={counts}/>
         <StartBtns />
         <div className="over-start">
           <button type="submit" className="pg-start-submit btn btn-default">Начать работу с сервисом</button>

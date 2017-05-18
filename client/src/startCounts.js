@@ -3,18 +3,35 @@
 import React, { Component } from 'react';
 import StartItems from './startItems';
 
+import { store } from './service/startRedux';
+
 class StartCounts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false
+      showDetails: false,
+      items: []
     }
   }
 
+  componentDidMount() {
+    store.subscribe(() => this.setNewItems())
+  }
+
+  setNewItems() {
+    this.setState({
+      items: store.getState().addCount
+    })
+  }
+
   render() {
+    let items = [];
 
-    let items = this.props.counts.filter(count => count.type === this.props.type)
+    if(this.state.items.length > 0) {
+      items = this.state.items.filter(count => count.type === this.props.type)
+    }
 
+    // console.log(items);
     let chevronClass = this.state.showDetails ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right';
 
     return (

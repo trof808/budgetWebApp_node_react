@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
 import StartModal from './startModal'
 
-// import { createStore } from 'redux';
-// // import { addCount } from './service/startRedux';
-//
-// const addCount = (list, action) => {
-//   return [...list, action.count];
-// };
-//
-// try {
-//   const store = createStore(addCount);
-// } catch (e) {
-//   console.log(e);
-// }
+import { store } from './service/startRedux';
+import { actionChangeModal } from './service/actions'
 
 class StartBtns extends Component {
 
@@ -20,28 +10,42 @@ class StartBtns extends Component {
     super(props);
 
     this.state = {
-      title: 'Название'
+      types: {}
     }
 
     this.cartModal = this.cartModal.bind(this);
     this.depositModal = this.depositModal.bind(this);
     this.countModal = this.countModal.bind(this);
+    this.typesShowModel = this.typesShowModel.bind(this);
+  }
+  componentDidMount() {
+    store.subscribe(() => this.typesShowModel())
+  }
+
+  typesShowModel() {
+    const modalContent = store.getState();
+    this.setState({
+      types: modalContent.changeModalContent
+    })
   }
 
   cartModal() {
-    this.setState({
-      title: 'Добавить карту'
-    })
+    store.dispatch(actionChangeModal({
+      title: 'Добавить карту',
+      typeCount: 'card'
+    }))
   }
   depositModal() {
-    this.setState({
-      title: 'Добавить вклад'
-    })
+    store.dispatch(actionChangeModal({
+      title: 'Добавить вклад',
+      typeCount: 'deposit'
+    }))
   }
   countModal() {
-    this.setState({
-      title: 'Добавить счет'
-    })
+    store.dispatch(actionChangeModal({
+      title: 'Добавить счет',
+      typeCount: 'count'
+    }))
   }
 
   render() {
@@ -60,7 +64,7 @@ class StartBtns extends Component {
           Добавить счет
         </button>
 
-        <StartModal title={this.state.title}/>
+        <StartModal title={this.state.types.title} typeCount={this.state.types.typeCount}/>
       </div>
     )
   }
