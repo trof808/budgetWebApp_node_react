@@ -1,19 +1,34 @@
-import React from 'react';
+'use stirct';
 
-const StartCounts = (props) => {
-  return (
-    <div className="counts-added added">
-      <h4>{props.title} <span className="badge">0</span></h4>
-      <ul>
-        <li>
-          <a className="remove-start-item">
-            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </a>
-          Сбербанк <span>20 000 рублей</span>
-        </li>
-      </ul>
-    </div>
-  )
+import React, { Component } from 'react';
+import StartItems from './startItems';
+
+class StartCounts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDetails: false
+    }
+  }
+
+  render() {
+
+    let items = this.props.counts.filter(count => count.type === this.props.type)
+
+    let chevronClass = this.state.showDetails ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right';
+
+    return (
+      <div className="counts-added added">
+        <h4 onClick={() => this.setState({ showDetails: !this.state.showDetails })}>
+          <span className={chevronClass}></span>
+          {this.props.title}
+          <span className="badge">{items.length}</span>
+        </h4>
+        <StartItems showDetails={this.state.showDetails} items={items}/>
+      </div>
+    )
+  }
+
 }
 
 export default StartCounts;

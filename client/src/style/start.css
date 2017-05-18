@@ -19,3 +19,19 @@ button.pg-start-btns {
   list-style-type: none;
   padding: 0;
 }
+.counts-added.added .glyphicon {
+    font-size: 15px;
+    cursor: pointer;
+}
+.counts-added.added span.badge {
+    margin-left: 6px;
+}
+.counts-added.added h4 {
+  cursor: pointer;
+}
+#start-modal .modal-body {
+  text-align: left;
+}
+.counts-added.added ul li {
+    margin-top: 8px;
+}

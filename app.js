@@ -60,8 +60,8 @@ app.use('/', routes);
 
 app.use((req, res, next) => {
 	var err = new Error('not found');
-	err.status(404);
-	err.next();
+	err.status = 404;
+	next(err);
 });
 
 app.use((err, req, res, next) => {

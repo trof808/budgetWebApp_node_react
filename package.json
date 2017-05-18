@@ -29,6 +29,10 @@
     "passport": "^0.3.2",
     "passport-auth0": "^0.6.0",
     "pg": "^6.2.2",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "redux": "^3.6.0"
+  },
+  "devDependencies": {
+    "redux": "^3.6.0"
   }
 }
