@@ -1,38 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const StartItems = (props) => {
+import { store } from './service/startRedux';
+import { actionDeleteItem } from './service/actions'
 
-  let displayItems;
 
-  if(props.items.length > 0) {
-    displayItems = props.items.map((item) => {
-      return (
-        <li key={item.id}>
-          <a className="remove-start-item">
-            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </a>
-          {item.name} <span>{item.cash} {item.currency}</span>
-        </li>
-      )
-    })
-  } else {
-    displayItems = <li>Пусто</li>
+class StartItems extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
-  let list;
-  if(props.showDetails) {
-    list = (
-      <ul>
-        {displayItems}
-      </ul>
+  deleteItem(event) {
+    let id = event.target.dataset['count'];
+    store.dispatch(actionDeleteItem(parseInt(id)));
+    console.log(store.getState().addCount);
+  }
+
+  render() {
+    let displayItems;
+
+    if(this.props.items.length > 0) {
+      displayItems = this.props.items.map((item) => {
+        return (
+          <li key={item.id}>
+            <a className="remove-start-item">
+              <span className="glyphicon glyphicon-remove" aria-hidden="true" data-count={item.id} onClick={this.deleteItem}></span>
+            </a>
+            {item.name} <span>{item.cash} {item.currency}</span>
+          </li>
+        )
+      })
+    } else {
+      displayItems = <li>Пусто</li>
+    }
+
+    let list;
+    if(this.props.showDetails) {
+      list = (
+        <ul>
+          {displayItems}
+        </ul>
+      )
+    }
+
+    return (
+      <div>
+        {list}
+      </div>
     )
   }
 
-  return (
-    <div>
-      {list}
-    </div>
-  )
 }
 
 export default StartItems;

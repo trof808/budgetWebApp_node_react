@@ -19,7 +19,7 @@ class StartModal extends Component {
   }
 
   addNewCount() {
-    // console.log(this.state.countId.length);
+    
     store.dispatch(actionAddCount({
       id: this.state.countId,
       name: this.refs.bankName.value,
@@ -30,6 +30,13 @@ class StartModal extends Component {
   }
 
   render() {
+
+    let sumTitle;
+
+    if(this.props.typeCount === 'card') sumTitle = 'Сумма на карте';
+    if(this.props.typeCount === 'deposit') sumTitle = 'Сумма на вкладе';
+    if(this.props.typeCount === 'count') sumTitle = 'Сумма на счету';
+
      return (
        <div className="modal fade" tabIndex="-1" id="start-modal" role="dialog" aria-labelledby="gridSystemModalLabel">
         <div className="modal-dialog" role="document">
@@ -40,7 +47,7 @@ class StartModal extends Component {
             </div>
             <div className="modal-body">
               <div className="row">
-                <input type="text" defaultValue={this.props.typeCount} ref="type" />
+                <input type="text" className="hidden" value={this.props.typeCount} ref="type" />
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -53,16 +60,16 @@ class StartModal extends Component {
                 <div className="col-md-6">
                   <div className="form-group cash-count">
                     <label htmlFor="pg-cash-count-name">Сумма</label>
-                    <input type="text" ref="cash" id="pg-cash-count-name" className="cash-card form-control" placeholder="Сумма на карте" />
-                    <span id="helpBlock" className="help-block">Сумма на карте</span>
+                    <input type="text" ref="cash" id="pg-cash-count-name" className="cash-card form-control" placeholder={sumTitle} />
+                    <span id="helpBlock" className="help-block">{sumTitle}</span>
                   </div>
                 </div>
               </div>
 
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={this.addNewCount}>Save changes</button>
+              <button type="button" className="btn btn-default" data-dismiss="modal">Закрыть</button>
+              <button type="button" className="btn btn-primary" onClick={this.addNewCount}>Добавить</button>
             </div>
           </div>
         </div>

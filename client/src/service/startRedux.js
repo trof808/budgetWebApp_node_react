@@ -5,6 +5,8 @@ const addCount = (list = [], action) => {
   switch(action.type) {
     case action_types.ADD_COUNT:
       return [...list, action.count];
+    case action_types.DELETE_COUNT:
+      return list.filter(o => o.id !== action.id);
     default:
       return list;
   }
