@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
+import RelatedBanks from './relatedBanks';
 
 import { store } from './service/startRedux';
-import { actionAddCount } from './service/actions'
+import { actionAddCount, parseBanksFromDb } from './service/actions'
+import { getAllBanks } from './service/banksService';
 
 class StartModal extends Component {
   constructor(props) {
     super(props);
 
     this.addNewCount = this.addNewCount.bind(this);
+    this.handleFindBanks = this.handleFindBanks.bind(this);
 
     this.state = {
-      countId: 0
+      countId: 0,
+      value: '',
+      relatedBanks: [],
+      visibleBanks: false
     }
   }
 
   componentDidMount() {
     store.subscribe(() => { this.setState({ countId: store.getState().addCount.length }) });
+    store.subscribe(() => { this.setState({ relatedBanks: store.getState().banksStore[0] }); })
+    getAllBanks().then(response => store.dispatch(parseBanksFromDb(response))).catch(error => {console.log(error)})
   }
 
   addNewCount() {
-    
+
     store.dispatch(actionAddCount({
       id: this.state.countId,
       name: this.refs.bankName.value,
@@ -27,6 +35,17 @@ class StartModal extends Component {
       currency: 'RUB',
       type: this.refs.type.value
     }))
+  }
+
+  handleFindBanks(e) {
+    let inputValue = e.target.value;
+    this.setState({ visibleBanks: true });
+    this.setState({ relatedBanks: store.getState().banksStore[0].filter(bank => {
+      let match = bank.name.toLowerCase().indexOf(inputValue.toLowerCase())
+
+      return (match !== -1);
+    }) })
+    console.log(this.state.relatedBanks);
   }
 
   render() {
@@ -47,14 +66,15 @@ class StartModal extends Component {
             </div>
             <div className="modal-body">
               <div className="row">
-                <input type="text" className="hidden" value={this.props.typeCount} ref="type" />
+                <input type="text" className="hidden" value={this.props.typeCount || ''} ref="type" />
               </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group count-name">
                     <label htmlFor="pg-bank-name">Наименование банка</label>
-                    <input type="text" ref="bankName" id="pg-bank-name" className="bank-name form-control" placeholder="Наименование банка" />
+                    <input type="text" ref="bankName" id="pg-bank-name" className="bank-name form-control" placeholder="Наименование банка" autoComplete="off" onChange={this.handleFindBanks} />
                     <span id="helpBlock" className="help-block">Введите название банка</span>
+                    <RelatedBanks visible={this.state.visibleBanks} banks={this.state.relatedBanks} />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -69,7 +89,7 @@ class StartModal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default" data-dismiss="modal">Закрыть</button>
-              <button type="button" className="btn btn-primary" onClick={this.addNewCount}>Добавить</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.addNewCount}>Добавить</button>
             </div>
           </div>
         </div>

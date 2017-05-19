@@ -21,9 +21,19 @@ const changeModalContent = (obj = {}, action) => {
   }
 }
 
+const banksStore = (state = [], action) => {
+  switch(action.type) {
+    case action_types.PARSE_BANKS:
+      return [...state, action.banks];
+    default:
+      return state;
+  }
+}
+
 const reducers = combineReducers({
   addCount,
-  changeModalContent
+  changeModalContent,
+  banksStore
 });
 
 export const store = createStore(reducers);

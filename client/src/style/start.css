@@ -35,3 +35,28 @@ button.pg-start-btns {
 .counts-added.added ul li {
     margin-top: 8px;
 }
+.form-group {
+  position: relative;
+}
+.relatedBanks {
+    border: 1px solid #eee;
+    position: absolute;
+    width: 100%;
+    top: 58px;
+    background-color: #fff;
+    /*padding: 8px 0px;*/
+}
+.relatedBanks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.relatedBanks ul li {
+  padding: 7px 30px;
+  /*margin-top: 4px;*/
+  border-bottom: 1px solid #eee;
+}
+.relatedBanks ul li:hover {
+  cursor: pointer;
+  background-color: #eee;
+}

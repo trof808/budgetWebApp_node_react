@@ -8,12 +8,15 @@ const redis = require("redis");
 const client = redis.createClient();
 
 const user = require('../server/user');
+const banks = require('../server/banks');
 
 var env = {
 	AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
   AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
   AUTH0_CALLBACK_URL: 'http://localhost:8094/callback'
 }
+
+route.get('/banks/api', banks.getBanks);
 
 route.get('/', (req, res, next) => {
 	if(req.user) {

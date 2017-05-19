@@ -14,7 +14,7 @@ class StartItems extends Component {
 
   deleteItem(event) {
     let id = event.target.dataset['count'];
-    store.dispatch(actionDeleteItem(parseInt(id)));
+    store.dispatch(actionDeleteItem(parseInt(id, 10)));
     console.log(store.getState().addCount);
   }
 
