@@ -1,11 +1,11 @@
-const url = '/banks/api';
+const url = '/cards/api';
 
-export const getAllBanks = () => {
-
+export const getAllCards = () => {
   return new Promise(function(resolve, reject) {
     fetch(url)
       .then(response => response.json())
       .then(data => resolve(data))
-      .catch(error => reject(error))
+      .catch((error) => console.log(error))
   });
+
 }

@@ -2,6 +2,7 @@ export const action_types = {
   ADD_COUNT: 'ADD_COUNT',
   DELETE_COUNT: 'DELETE_COUNT',
   CHANGE_MODAL: 'CHANGE_MODAL',
+  PARSE_CARDS: 'PARSE_CARDS',
   PARSE_BANKS: 'PARSE_BANKS'
 }
 
@@ -17,6 +18,10 @@ export const actionChangeModal = (content) => {
   return { type: action_types.CHANGE_MODAL, title: content.title, typeCount: content.typeCount };
 }
 
-export const parseBanksFromDb = (banks) => {
-  return { type: action_types.PARSE_BANKS, banks: banks }
+export const parseCardsFromDb = (cards) => {
+  return { type: action_types.PARSE_CARDS, cards: cards }
+}
+
+export const parseBanksFromDb = (bank) => {
+  return { type: action_types.PARSE_BANKS, banks: bank }
 }

@@ -9,6 +9,7 @@ const client = redis.createClient();
 
 const user = require('../server/user');
 const banks = require('../server/banks');
+const cards = require('../server/cards');
 
 var env = {
 	AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
@@ -17,6 +18,7 @@ var env = {
 }
 
 route.get('/banks/api', banks.getBanks);
+route.get('/cards/api', cards.getCards);
 
 route.get('/', (req, res, next) => {
 	if(req.user) {

@@ -28,7 +28,7 @@ class StartItems extends Component {
             <a className="remove-start-item">
               <span className="glyphicon glyphicon-remove" aria-hidden="true" data-count={item.id} onClick={this.deleteItem}></span>
             </a>
-            {item.name} <span>{item.cash} {item.currency}</span>
+            {item.bank_name} <span>{item.cash} {item.currency}</span>
           </li>
         )
       })

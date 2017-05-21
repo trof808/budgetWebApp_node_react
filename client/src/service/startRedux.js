@@ -21,6 +21,15 @@ const changeModalContent = (obj = {}, action) => {
   }
 }
 
+const cardsStore = (state = [], action) => {
+  switch(action.type) {
+    case action_types.PARSE_CARDS:
+      return [...state, action.cards];
+    default:
+      return state;
+  }
+}
+
 const banksStore = (state = [], action) => {
   switch(action.type) {
     case action_types.PARSE_BANKS:
@@ -33,6 +42,7 @@ const banksStore = (state = [], action) => {
 const reducers = combineReducers({
   addCount,
   changeModalContent,
+  cardsStore,
   banksStore
 });
 
